@@ -40,7 +40,14 @@ function renderCodeHighlightJS(sourceCode, language) {
     return hljs.highlight(sourceCode, { language: language }).value;
 }
 
-function renderCodePrismJS() { }
+function renderCodePrismJS(sourceCode, language) {
+    const prism = require("prismjs");
+    const loadLanguages = require("prismjs/components");
+    loadLanguages([language]);
+    // prism.highlight(sourceCode, )
+    // TODO: actual rendering
+    return "";
+}
 
 const options = program.opts();
 
@@ -49,8 +56,12 @@ switch (options.backend) {
         const sourceCode = readSourceCode(options.input);
         const renderedCode = renderCodeHighlightJS(sourceCode, options.language);
         writeRenderedHTML(options.output, renderedCode);
+        break;
     }
     case "prism.js": {
+        const sourceCode = readSourceCode(options.input);
+        const renderedCode = renderCodePrismJS(sourceCode, options.language);
+        writeRenderedHTML(options.output, renderedCode);
         break;
     }
     default: {
