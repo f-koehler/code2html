@@ -1,18 +1,19 @@
 const { Command, Option } = require("commander");
+const { readFileSync, writeFileSync } = require("fs");
 
 
 const program = new Command("code2html");
 program.description("Renders source code files to HTML.")
 
 program
-    .addOption(new Option("-b, --backend", "Rendering backend to use")
+    .addOption(new Option("-b, --backend <backend>", "Rendering backend to use")
         .choices(["prism.js", "highlight.js", "pygments"])
         .default("highlight.js"))
-    .addOption(new Option("-i, --input", "Input file, \"-\" for STDIN")
+    .addOption(new Option("-i, --input <input>", "Input file, \"-\" for STDIN")
         .default("-"))
-    .addOption(new Option("-o, --output", "Output file, \"-\" for STDOUT")
+    .addOption(new Option("-o, --output <output>", "Output file, \"-\" for STDOUT")
         .default("-"))
-    .addOption(new Option("-l, --language", "Programming language used"));
+    .addOption(new Option("-l, --language <language>", "Programming language used"));
 
 program.parse(process.argv);
 
@@ -42,4 +43,17 @@ function renderCodeHighlightJS(sourceCode, language) {
 function renderCodePrismJS() { }
 
 const options = program.opts();
-console.log(options);
+
+switch (options.backend) {
+    case "highlight.js": {
+        const sourceCode = readSourceCode(options.input);
+        const renderedCode = renderCodeHighlightJS(sourceCode, options.language);
+        writeRenderedHTML(options.output, renderedCode);
+    }
+    case "prism.js": {
+        break;
+    }
+    default: {
+        break;
+    }
+}
