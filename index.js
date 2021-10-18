@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { Command, Option } = require("commander");
 const { readFileSync, writeFileSync } = require("fs");
 
