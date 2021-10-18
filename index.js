@@ -42,12 +42,16 @@ function renderCodeHighlightJS(sourceCode, language) {
 }
 
 function renderCodePrismJS(sourceCode, language) {
-    const prism = require("prismjs");
-    const loadLanguages = require("prismjs/components");
-    loadLanguages([language]);
+    if (language) {
+        return sourceCode;
+    }
+
+    // const prism = require("prismjs");
+    // const loadLanguages = require("prismjs/components");
+    // loadLanguages([language]);
     // prism.highlight(sourceCode, )
     // TODO: actual rendering
-    return "";
+    return sourceCode;
 }
 
 const options = program.opts();
