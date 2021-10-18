@@ -38,7 +38,8 @@ function writeRenderedHTML(output, renderedCode) {
 function renderCodeHighlightJS(sourceCode, language) {
     const hljs = require("highlight.js/lib/core");
     hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
-    return hljs.highlight(sourceCode, { language: language }).value;
+    const rendered = hljs.highlight(sourceCode, { language: language }).value;
+    return `<pre>\n  <code>\n${rendered}\n  </code>\n</pre>`
 }
 
 function renderCodePrismJS(sourceCode, language) {
