@@ -19,5 +19,8 @@
   },
   "scripts": {
     "lint:eslint": "cross-env EFF_NO_LINK_RULES=true eslint . --format friendly"
+  },
+  "bin": {
+    "code2html": "./index.js"
   }
 }
