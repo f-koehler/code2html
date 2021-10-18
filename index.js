@@ -43,16 +43,11 @@ function renderCodeHighlightJS(sourceCode, language) {
 }
 
 function renderCodePrismJS(sourceCode, language) {
-  if (language) {
-    return sourceCode;
-  }
-
-  // const prism = require("prismjs");
-  // const loadLanguages = require("prismjs/components");
-  // loadLanguages([language]);
-  // prism.highlight(sourceCode, )
-  // TODO: actual rendering
-  return sourceCode;
+  const prism = require("prismjs");
+  const loadLanguages = require("prismjs/components/");
+  loadLanguages([language]);
+  const rendered = prism.highlight(sourceCode, prism.languages[language], language);
+  return `<pre><code>${rendered}</code></pre>`
 }
 
 const options = program.opts();
