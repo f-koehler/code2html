@@ -14,7 +14,8 @@ program
     .default("-"))
   .addOption(new Option("-o, --output <output>", "Output file, \"-\" for STDOUT")
     .default("-"))
-  .addOption(new Option("-l, --language <language>", "Programming language used"));
+  .addOption(new Option("-l, --language <language>", "Programming language used"))
+  .addOption(new Option("--linenos", "Add line numbers"));
 
 program.parse(process.argv);
 
@@ -35,6 +36,15 @@ function writeRenderedHTML(output, renderedCode) {
   }
 }
 
+// function addLineNumbers(code) {
+//   const total = code.split("\n").length;
+//   var linenos = "";
+//   for (let i = 1; i <= total; ++i) {
+//     linenos += `{i}\n`;
+//   }
+//   return "<table></table>"
+// }
+
 function renderCodeHighlightJS(sourceCode, language) {
   const hljs = require("highlight.js/lib/core");
   hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
@@ -42,12 +52,14 @@ function renderCodeHighlightJS(sourceCode, language) {
   return `<pre><code>${rendered}</code></pre>`
 }
 
-function renderCodePrismJS(sourceCode, language) {
+function renderCodePrismJS(sourceCode, language, linenos) {
   const prism = require("prismjs");
   const loadLanguages = require("prismjs/components/");
   loadLanguages([language]);
   const rendered = prism.highlight(sourceCode, prism.languages[language], language);
-  return `<pre><code>${rendered}</code></pre>`
+
+  const wrapped = `<pre><code>${rendered}</code></pre>`
+  if (linenos) { }
 }
 
 const options = program.opts();
