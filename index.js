@@ -47,12 +47,11 @@ function addLineNumbers(code) {
 }
 
 function renderCodeHighlightJS(sourceCode, language, linenos) {
+  var rendered = sourceCode;
   if (language) {
     const hljs = require("highlight.js/lib/core");
     hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
-    const rendered = hljs.highlight(sourceCode, { language: language }).value;
-  } else {
-    const rendered = sourceCode;
+    rendered = hljs.highlight(sourceCode, { language: language }).value;
   }
 
   if (linenos) {
@@ -62,16 +61,14 @@ function renderCodeHighlightJS(sourceCode, language, linenos) {
 }
 
 function renderCodePrismJS(sourceCode, language, linenos) {
+  var rendered = sourceCode;
   if (language) {
     const prism = require("prismjs");
     const loadLanguages = require("prismjs/components/");
     loadLanguages([language]);
-    const rendered = prism.highlight(sourceCode, prism.languages[language], language);
-  } else {
-    const rendered = sourceCode;
+    rendered = prism.highlight(sourceCode, prism.languages[language], language);
   }
 
-  console.log(linenos);
   if (linenos) {
     return addLineNumbers(rendered)
   }
