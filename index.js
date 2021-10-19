@@ -9,16 +9,17 @@ program.description("Renders source code files to HTML.")
 program
   .addOption(new Option("-b, --backend <backend>", "Rendering backend to use")
     .choices(["prism.js", "highlight.js", "pygments"])
-    .default("highlight.js"))
+    .default("prism.js"))
   .addOption(new Option("-i, --input <input>", "Input file, \"-\" for STDIN")
     .default("-"))
   .addOption(new Option("-o, --output <output>", "Output file, \"-\" for STDOUT")
     .default("-"))
   .addOption(new Option("-l, --language <language>", "Programming language used"))
-  .addOption(new Option("--linenos", "Add line numbers"));
+  .addOption(new Option("--linenos", "Add line numbers"))
+  .parse();
 
-program.parse(process.argv);
-
+const options = program.opts();
+console.log(options);
 
 function readSourceCode(input) {
   if (input == "-") {
@@ -36,20 +37,24 @@ function writeRenderedHTML(output, renderedCode) {
   }
 }
 
-// function addLineNumbers(code) {
-//   const total = code.split("\n").length;
-//   var linenos = "";
-//   for (let i = 1; i <= total; ++i) {
-//     linenos += `{i}\n`;
-//   }
-//   return "<table></table>"
-// }
+function addLineNumbers(code) {
+  const total = code.split("\n").length;
+  var linenos = "";
+  for (let i = 1; i < total; ++i) {
+    linenos += `${i}\n`;
+  }
+  return `<table><tr><td><pre>${linenos}</pre></td><td><pre><code>${code}</code></pre></td></tr></table>`
+}
 
-function renderCodeHighlightJS(sourceCode, language) {
+function renderCodeHighlightJS(sourceCode, language, linenos) {
   const hljs = require("highlight.js/lib/core");
   hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
   const rendered = hljs.highlight(sourceCode, { language: language }).value;
-  return `<pre><code>${rendered}</code></pre>`
+
+  if (linenos) {
+    return addLineNumbers(rendered)
+  }
+  return `<pre><code>${rendered}</pre></code>`
 }
 
 function renderCodePrismJS(sourceCode, language, linenos) {
@@ -58,22 +63,23 @@ function renderCodePrismJS(sourceCode, language, linenos) {
   loadLanguages([language]);
   const rendered = prism.highlight(sourceCode, prism.languages[language], language);
 
-  const wrapped = `<pre><code>${rendered}</code></pre>`
-  if (linenos) { }
+  console.log(linenos);
+  if (linenos) {
+    return addLineNumbers(rendered)
+  }
+  return `<pre><code>${rendered}</pre></code>`
 }
-
-const options = program.opts();
 
 switch (options.backend) {
   case "highlight.js": {
     const sourceCode = readSourceCode(options.input);
-    const renderedCode = renderCodeHighlightJS(sourceCode, options.language);
+    const renderedCode = renderCodeHighlightJS(sourceCode, options.language, options.linenos);
     writeRenderedHTML(options.output, renderedCode);
     break;
   }
   case "prism.js": {
     const sourceCode = readSourceCode(options.input);
-    const renderedCode = renderCodePrismJS(sourceCode, options.language);
+    const renderedCode = renderCodePrismJS(sourceCode, options.language, options.linenos);
     writeRenderedHTML(options.output, renderedCode);
     break;
   }
