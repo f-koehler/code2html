@@ -44,16 +44,25 @@ jobs:
         uses: actions/setup-node@v2
         with:
           cache: "npm"
-          registry-url: https://registry.npmjs.org
       - run: npm install
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - uses: JS-DevTools/npm-publish@v1
         with:
-          cache: "npm"
-          registry-url: "https://npm.pkg.github.com"
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
+          registry: https://registry.npmjs.org
+          check-version: true
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          registry: https://npm.pkg.github.com
+          check-version: true
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     cache: "npm"
+      #     registry-url: "https://npm.pkg.github.com"
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
