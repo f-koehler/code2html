@@ -63,7 +63,7 @@ function renderCodeHighlightJS(sourceCode, language, linenos) {
 
 function renderCodePrismJS(sourceCode, language, linenos) {
   var rendered = sourceCode;
-  var cssClass = "";
+  var cssClass = " class=\"language-\"";
   if (language) {
     const prism = require("prismjs");
     const loadLanguages = require("prismjs/components/");
