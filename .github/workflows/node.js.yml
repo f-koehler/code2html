@@ -44,6 +44,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           cache: "npm"
+          registry-url: "https://registry.npmjs.org"
       - run: npm install
       - run: npm publish
         env:
