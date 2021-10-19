@@ -42,7 +42,7 @@ function addLineNumbers(code) {
   for (let i = 1; i < total; ++i) {
     linenos += `${i}\n`;
   }
-  return `<table><tr><td><pre>${linenos}</pre></td><td><pre><code>${code}</code></pre></td></tr></table>`
+  return `<table><tr><td><pre>${linenos}</pre></td><td>${code}</td></tr></table>`
 }
 
 function renderCodeHighlightJS(sourceCode, language, linenos) {
@@ -53,25 +53,31 @@ function renderCodeHighlightJS(sourceCode, language, linenos) {
     rendered = hljs.highlight(sourceCode, { language: language }).value;
   }
 
+  var wrapped = `<pre><code>${rendered}</code></pre>`;
+
   if (linenos) {
-    return addLineNumbers(rendered)
+    return addLineNumbers(wrapped)
   }
-  return `<pre><code>${rendered}</pre></code>`
+  return wrapped;
 }
 
 function renderCodePrismJS(sourceCode, language, linenos) {
   var rendered = sourceCode;
+  var cssClass = "";
   if (language) {
     const prism = require("prismjs");
     const loadLanguages = require("prismjs/components/");
     loadLanguages([language]);
     rendered = prism.highlight(sourceCode, prism.languages[language], language);
+    cssClass = ` class="language-${language}"`
   }
 
+  var wrapped = `<pre${cssClass}><code${cssClass}>${rendered}</code></pre>`;
+
   if (linenos) {
-    return addLineNumbers(rendered)
+    return addLineNumbers(wrapped)
   }
-  return `<pre><code>${rendered}</pre></code>`
+  return wrapped;
 }
 
 switch (options.backend) {
