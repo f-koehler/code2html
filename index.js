@@ -19,7 +19,6 @@ program
   .parse();
 
 const options = program.opts();
-console.log(options);
 
 function readSourceCode(input) {
   if (input == "-") {
