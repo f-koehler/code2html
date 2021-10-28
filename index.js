@@ -36,13 +36,13 @@ function writeRenderedHTML(output, renderedCode) {
   }
 }
 
-function addLineNumbers(code) {
-  const total = code.split("\n").length;
-  var linenos = "";
-  for (let i = 1; i < total; ++i) {
-    linenos += `${i}\n`;
+function addLineNumbersHighlightJS(code) {
+  var wrapped = "<table>\n";
+  for (const [index, line] of code.split("\n").entries()) {
+    wrapped += `<tr><td class="lineno"><pre>${index}</pre></td><td><pre>${line}</pre></td></tr>`;
   }
-  return `<table><tr><td><pre>${linenos}</pre></td><td>${code}</td></tr></table>`
+  wrapped += "</table>";
+  return wrapped;
 }
 
 function renderCodeHighlightJS(sourceCode, language, linenos) {
@@ -53,31 +53,30 @@ function renderCodeHighlightJS(sourceCode, language, linenos) {
     rendered = hljs.highlight(sourceCode, { language: language }).value;
   }
 
-  var wrapped = `<pre><code>${rendered}</code></pre>`;
+  // var wrapped = `<pre><code>${rendered}</code></pre>`;
 
   if (linenos) {
-    return addLineNumbers(wrapped)
+    return addLineNumbers(rendered)
   }
-  return wrapped;
+  return rendered;
 }
 
 function renderCodePrismJS(sourceCode, language, linenos) {
   var rendered = sourceCode;
-  var cssClass = " class=\"language-\"";
+  // var cssClass = " class=\"language-\"";
   if (language) {
     const prism = require("prismjs");
     const loadLanguages = require("prismjs/components/");
     loadLanguages([language]);
     rendered = prism.highlight(sourceCode, prism.languages[language], language);
-    cssClass = ` class="language-${language}"`
+    // cssClass = ` class="language-${language}"`
   }
-
-  var wrapped = `<pre${cssClass}><code${cssClass}>${rendered}</code></pre>`;
 
   if (linenos) {
-    return addLineNumbers(wrapped)
+    return addLineNumbersHighlightJS(rendered)
   }
-  return wrapped;
+  // return `<pre${cssClass}><code${cssClass}>${rendered}</code></pre>`;
+  return `<pre><code>${rendered}</code></pre>`;
 }
 
 switch (options.backend) {
