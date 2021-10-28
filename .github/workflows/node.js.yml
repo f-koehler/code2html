@@ -22,6 +22,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: ./index.js -i index.js -l javascript
       - run: ./index.js -i index.js -l javascript --linenos
+      - run: ./index.js -i index.js -l javascript --backend highlight.js
+      - run: ./index.js -i index.js -l javascript --backend highlight.js --linenos
   lint:
     runs-on: ubuntu-latest
     steps:

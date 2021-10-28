@@ -36,7 +36,7 @@ function writeRenderedHTML(output, renderedCode) {
   }
 }
 
-function addLineNumbersHighlightJS(code) {
+function addLineNumbers(code) {
   var wrapped = "<table>\n";
   for (const [index, line] of code.split("\n").entries()) {
     wrapped += `<tr><td class="lineno"><pre>${index}</pre></td><td><pre>${line}</pre></td></tr>`;
@@ -45,47 +45,42 @@ function addLineNumbersHighlightJS(code) {
   return wrapped;
 }
 
-// function renderCodeHighlightJS(sourceCode, language, linenos) {
-//   var rendered = sourceCode;
-//   if (language) {
-//     const hljs = require("highlight.js/lib/core");
-//     hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
-//     rendered = hljs.highlight(sourceCode, { language: language }).value;
-//   }
+function renderCodeHighlightJS(sourceCode, language, linenos) {
+  var rendered = sourceCode;
+  if (language) {
+    const hljs = require("highlight.js/lib/core");
+    hljs.registerLanguage(language, require(`highlight.js/lib/languages/${language}`));
+    rendered = hljs.highlight(sourceCode, { language: language }).value;
+  }
 
-//   // var wrapped = `<pre><code>${rendered}</code></pre>`;
-
-//   // if (linenos) {
-//   //   return addLineNumbers(rendered)
-//   // }
-//   return rendered;
-// }
+  if (linenos) {
+    return addLineNumbers(rendered)
+  }
+  return rendered;
+}
 
 function renderCodePrismJS(sourceCode, language, linenos) {
   var rendered = sourceCode;
-  // var cssClass = " class=\"language-\"";
   if (language) {
     const prism = require("prismjs");
     const loadLanguages = require("prismjs/components/");
     loadLanguages([language]);
     rendered = prism.highlight(sourceCode, prism.languages[language], language);
-    // cssClass = ` class="language-${language}"`
   }
 
   if (linenos) {
-    return addLineNumbersHighlightJS(rendered)
+    return addLineNumbers(rendered)
   }
-  // return `<pre${cssClass}><code${cssClass}>${rendered}</code></pre>`;
   return `<pre><code>${rendered}</code></pre>`;
 }
 
 switch (options.backend) {
-  // case "highlight.js": {
-  //   const sourceCode = readSourceCode(options.input);
-  //   const renderedCode = renderCodeHighlightJS(sourceCode, options.language, options.linenos);
-  //   writeRenderedHTML(options.output, renderedCode);
-  //   break;
-  // }
+  case "highlight.js": {
+    const sourceCode = readSourceCode(options.input);
+    const renderedCode = renderCodeHighlightJS(sourceCode, options.language, options.linenos);
+    writeRenderedHTML(options.output, renderedCode);
+    break;
+  }
   case "prism.js": {
     const sourceCode = readSourceCode(options.input);
     const renderedCode = renderCodePrismJS(sourceCode, options.language, options.linenos);
