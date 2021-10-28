@@ -55,9 +55,9 @@ function renderCodeHighlightJS(sourceCode, language, linenos) {
 
   // var wrapped = `<pre><code>${rendered}</code></pre>`;
 
-  if (linenos) {
-    return addLineNumbers(rendered)
-  }
+  // if (linenos) {
+  //   return addLineNumbers(rendered)
+  // }
   return rendered;
 }
 
