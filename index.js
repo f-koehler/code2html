@@ -41,7 +41,7 @@ function writeRenderedHTML(output, renderedCode) {
 function addLineNumbers(code, options) {
   var wrapped = `<table class="${options.class}">\n`;
   for (const [index, line] of code.split("\n").entries()) {
-    wrapped += `<tr><td class="${options.linenosClass}"><pre>${index}</pre></td><td><pre class="${options.class}">${line}</pre></td></tr>`;
+    wrapped += `<tr><td class="${options.linenosClass}"><pre>${index + 1}</pre></td><td><pre class="${options.class}">${line}</pre></td></tr>`;
   }
   wrapped += "</table>";
   return wrapped;
