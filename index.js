@@ -16,6 +16,7 @@ program
     .default("-"))
   .addOption(new Option("-l, --language <language>", "programming language"))
   .addOption(new Option("--linenos", "add line numbers"))
+  .addOption(new Option("--linenos-class <class>", "CSS class for line numbering").default("linenos"))
   .addOption(new Option("-c, --class <class>", "CSS class for generated HTML").default("highlight"))
   .parse();
 
@@ -40,7 +41,7 @@ function writeRenderedHTML(output, renderedCode) {
 function addLineNumbers(code, options) {
   var wrapped = `<table class="${options.class}">\n`;
   for (const [index, line] of code.split("\n").entries()) {
-    wrapped += `<tr><td class="lineno"><pre>${index}</pre></td><td><pre class="${options.class}">${line}</pre></td></tr>`;
+    wrapped += `<tr><td class="${options.linenosClass}"><pre>${index}</pre></td><td><pre class="${options.class}">${line}</pre></td></tr>`;
   }
   wrapped += "</table>";
   return wrapped;
