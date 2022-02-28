@@ -52,6 +52,9 @@ function addLineNumbers(code, options) {
 function renderCodeHighlightJS(sourceCode, options) {
   var rendered = sourceCode;
   if (options.language) {
+    if(options.language == "text") {
+      options.language = "plaintext";
+    }
     const hljs = require("highlight.js/lib/core");
     hljs.registerLanguage(options.language, require(`highlight.js/lib/languages/${options.language}`));
     rendered = hljs.highlight(sourceCode, { language: options.language }).value;
@@ -60,7 +63,7 @@ function renderCodeHighlightJS(sourceCode, options) {
   if (options.linenos) {
     return addLineNumbers(rendered, options)
   }
-  return rendered;
+  return `<pre class="${options.class}"><code>${rendered}</code></pre>`;
 }
 
 function renderCodePrismJS(sourceCode, options) {
