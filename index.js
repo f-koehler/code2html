@@ -39,7 +39,7 @@ function writeRenderedHTML(options, renderedCode) {
   if (options.output == "-") {
     writeFileSync(process.stdout.fd, renderedCode, "utf-8");
   } else {
-    writeFileSync(output, renderedCode, "utf-8");
+    writeFileSync(options.output, renderedCode, "utf-8");
   }
 }
 
