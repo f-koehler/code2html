@@ -18,6 +18,8 @@ program
   .addOption(new Option("--linenos", "add line numbers"))
   .addOption(new Option("--linenos-class <class>", "CSS class for line numbering").default("linenos"))
   .addOption(new Option("-c, --class <class>", "CSS class for generated HTML").default("highlight"))
+  .addOption(new Option("-w,--wrap", "wrap the output in a <div> element"))
+  .addOption(new Option("--wrap-class <class>", "CSS class for the wrapping <div> element (see --wrap)").default("highlight"))
   .parse();
 
 const options = program.opts();
@@ -30,8 +32,11 @@ function readSourceCode(input) {
   }
 }
 
-function writeRenderedHTML(output, renderedCode) {
-  if (output == "-") {
+function writeRenderedHTML(options, renderedCode) {
+  if (options.wrap) {
+    renderedCode = `<div class="${options.wrapClass}">${renderedCode}</div>`
+  }
+  if (options.output == "-") {
     writeFileSync(process.stdout.fd, renderedCode, "utf-8");
   } else {
     writeFileSync(output, renderedCode, "utf-8");
@@ -85,13 +90,13 @@ switch (options.backend) {
   case "highlight.js": {
     const sourceCode = readSourceCode(options.input);
     const renderedCode = renderCodeHighlightJS(sourceCode, options);
-    writeRenderedHTML(options.output, renderedCode);
+    writeRenderedHTML(options, renderedCode);
     break;
   }
   case "prism.js": {
     const sourceCode = readSourceCode(options.input);
     const renderedCode = renderCodePrismJS(sourceCode, options);
-    writeRenderedHTML(options.output, renderedCode);
+    writeRenderedHTML(options, renderedCode);
     break;
   }
   default: {
