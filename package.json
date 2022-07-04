@@ -13,9 +13,9 @@
     "prismjs": "^1.25.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "eslint": "^8.0.1",
-    "eslint-formatter-friendly": "^7.0.0"
+    "cross-env": "7.0.3",
+    "eslint": "8.19.0",
+    "eslint-formatter-friendly": "7.0.0"
   },
   "scripts": {
     "lint:eslint": "cross-env EFF_NO_LINK_RULES=true eslint . --format friendly"
