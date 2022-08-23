@@ -57,8 +57,10 @@ function addLineNumbers(code, options) {
 function renderCodeHighlightJS(sourceCode, options) {
   var rendered = sourceCode;
   if (options.language) {
-    if(options.language == "text") {
+    if (options.language.toLowerCase() == "text") {
       options.language = "plaintext";
+    } else if (options.language.toLowerCase() == "c++") {
+      options.language = "cpp";
     }
     const hljs = require("highlight.js/lib/core");
     hljs.registerLanguage(options.language, require(`highlight.js/lib/languages/${options.language}`));
