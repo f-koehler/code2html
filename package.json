@@ -7,7 +7,7 @@
   "author": "Fabian Köhler <fabian.koehler@protonmail.ch>",
   "license": "MIT",
   "dependencies": {
-    "commander": "^10.0.0",
+    "commander": "^11.0.0",
     "highlight.js": "^11.3.1",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.25.0"
