@@ -13,9 +13,9 @@ jobs:
       matrix:
         node-version: ["16", "18"]
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+      - uses: actions/checkout@v4.1.1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
@@ -27,9 +27,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+      - uses: actions/checkout@v4.1.1
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: "yarn"
       - run: yarn install --frozen-lockfile
@@ -42,9 +42,9 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+      - uses: actions/checkout@v4.1.1
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
